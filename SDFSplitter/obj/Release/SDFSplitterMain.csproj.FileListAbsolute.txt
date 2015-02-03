@@ -1,0 +1,13 @@
+G:\vs_projects\SDFSplitter\SDFSplitter\bin\Release\SDFSplitter.exe.config
+G:\vs_projects\SDFSplitter\SDFSplitter\bin\Release\SDFSplitter.exe
+G:\vs_projects\SDFSplitter\SDFSplitter\bin\Release\SDFSplitter.pdb
+G:\vs_projects\SDFSplitter\SDFSplitter\obj\Release\SDFSplitterMain.csprojResolveAssemblyReference.cache
+G:\vs_projects\SDFSplitter\SDFSplitter\obj\Release\MainWindow.baml
+G:\vs_projects\SDFSplitter\SDFSplitter\obj\Release\MainWindow.g.cs
+G:\vs_projects\SDFSplitter\SDFSplitter\obj\Release\App.g.cs
+G:\vs_projects\SDFSplitter\SDFSplitter\obj\Release\SDFSplitter_MarkupCompile.cache
+G:\vs_projects\SDFSplitter\SDFSplitter\obj\Release\SDFSplitter.g.resources
+G:\vs_projects\SDFSplitter\SDFSplitter\obj\Release\SDFSplitter.Properties.Resources.resources
+G:\vs_projects\SDFSplitter\SDFSplitter\obj\Release\SDFSplitterMain.csproj.GenerateResource.Cache
+G:\vs_projects\SDFSplitter\SDFSplitter\obj\Release\SDFSplitter.exe
+G:\vs_projects\SDFSplitter\SDFSplitter\obj\Release\SDFSplitter.pdb

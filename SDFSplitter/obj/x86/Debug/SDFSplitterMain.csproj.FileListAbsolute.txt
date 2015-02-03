@@ -1,0 +1,14 @@
+G:\vs_projects\tutorials\WpfApplication1\WpfApplication1\bin\x86\Debug\SDFSplitter.exe.config
+G:\vs_projects\tutorials\WpfApplication1\WpfApplication1\bin\x86\Debug\SDFSplitter.exe
+G:\vs_projects\tutorials\WpfApplication1\WpfApplication1\bin\x86\Debug\SDFSplitter.pdb
+G:\vs_projects\tutorials\WpfApplication1\WpfApplication1\bin\x86\Debug\SDFSplitter.exe.CodeAnalysisLog.xml
+G:\vs_projects\tutorials\WpfApplication1\WpfApplication1\bin\x86\Debug\SDFSplitter.exe.lastcodeanalysissucceeded
+G:\vs_projects\tutorials\WpfApplication1\WpfApplication1\obj\x86\Debug\MainWindow.baml
+G:\vs_projects\tutorials\WpfApplication1\WpfApplication1\obj\x86\Debug\MainWindow.g.cs
+G:\vs_projects\tutorials\WpfApplication1\WpfApplication1\obj\x86\Debug\App.g.cs
+G:\vs_projects\tutorials\WpfApplication1\WpfApplication1\obj\x86\Debug\SDFSplitter_MarkupCompile.cache
+G:\vs_projects\tutorials\WpfApplication1\WpfApplication1\obj\x86\Debug\SDFSplitter.g.resources
+G:\vs_projects\tutorials\WpfApplication1\WpfApplication1\obj\x86\Debug\SDFSplitter.Properties.Resources.resources
+G:\vs_projects\tutorials\WpfApplication1\WpfApplication1\obj\x86\Debug\SDFSplitterMain.csproj.GenerateResource.Cache
+G:\vs_projects\tutorials\WpfApplication1\WpfApplication1\obj\x86\Debug\SDFSplitter.exe
+G:\vs_projects\tutorials\WpfApplication1\WpfApplication1\obj\x86\Debug\SDFSplitter.pdb
