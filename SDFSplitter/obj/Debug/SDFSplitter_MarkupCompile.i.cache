@@ -4,16 +4,16 @@
 winexe
 C#
 .cs
-G:\vs_projects\tutorials\WpfApplication1\WpfApplication1\obj\Debug\
+G:\vs_projects\SDFSplitter\SDFSplitter\obj\Debug\
 SDFSplitter
 none
 false
-CODE_ANALYSIS;DEBUG;TRACE
-G:\vs_projects\tutorials\WpfApplication1\WpfApplication1\App.xaml
+DEBUG;TRACE
+G:\vs_projects\SDFSplitter\SDFSplitter\App.xaml
 11151548125
 
 101969534667
-12-1401562060
+15-1154446507
 MainWindow.xaml;
 
 False

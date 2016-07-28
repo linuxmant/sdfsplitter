@@ -4,39 +4,50 @@
         Title="SDF Splitter" Loaded="MainWindow_Loaded"
 		Height="350" Width="525">
     <Grid Margin="10" MaxWidth="640" MaxHeight="480" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" >
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="Auto"/>
-			<ColumnDefinition />
-		</Grid.ColumnDefinitions>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto"/>
-			<RowDefinition Height="Auto"/>
-			<RowDefinition />
-			<RowDefinition Height="Auto"/>
-		</Grid.RowDefinitions>
-		<Label Grid.Column="0" Grid.Row="0">Input File</Label>
-		<TextBox Grid.Column="1" Grid.Row="0" x:Name="sdfFilePath"
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="105"/>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <Label Grid.Column="0" Grid.Row="0">Input File</Label>
+        <TextBox Grid.Column="1" Grid.Row="0" x:Name="sdfFilePath"
 				 Text="Click to select sdf file..."
 				 PreviewMouseUp="TextBox_MouseUp"
-				 MouseEnter="sdfFilePath_MouseEnter" MouseLeave="sdfFilePath_MouseLeave"
-				 ToolTip="Select an SDF File" MaxLines="2" MaxLength="1024">
-		</TextBox>
-		<Label Grid.Column="0" Grid.Row="1">Output Directory</Label>
-		<TextBox Grid.Column="1" Grid.Row="1" x:Name="molPath"
-				 ToolTip="Select an output directory" MaxLines="2" MaxLength="1024"></TextBox>
-		<Border Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2"
-				BorderBrush="Silver" BorderThickness="1" CornerRadius="2"/>
-		<ScrollViewer Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2"
-					  ScrollViewer.CanContentScroll="True"
-					  Margin="2">
-			<TextBlock x:Name="resultsTbx" DataContext="{Binding Source=splitter, Path=results}"/>
-		</ScrollViewer>
-		<StackPanel Grid.Column="0" Grid.Row="3" 
-					Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center" >
-			<Button Margin="10" Width="50" 
+				 MouseEnter="sdfFilePath_MouseEnter" 
+                 MouseLeave="sdfFilePath_MouseLeave"
+				 ToolTip="Select an SDF File" MaxLength="1024"
+                 Margin="2"/>
+        <Label Grid.Column="0" Grid.Row="1">Output Directory</Label>
+        <TextBox Grid.Column="1" Grid.Row="1" x:Name="molPath"
+				 ToolTip="Select an output directory" MaxLength="1024"
+                 Margin="2"/>
+
+        <Label Grid.Column="0" Grid.Row="2">Suffix</Label>
+        <TextBox Grid.Column="1" Grid.Row="2" x:Name="suffix"
+				 ToolTip="Select a suffix" MaxLength="10"
+                 Text="{Binding Source=splitter, Path=Suffix}"
+                 PreviewKeyUp="suffix_PreviewKeyUp"
+                 Margin="2"/>
+
+        <Border Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2"
+				BorderBrush="Silver" BorderThickness="1" CornerRadius="2"
+                 Margin="2 5">
+            <ScrollViewer Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2"
+					  ScrollViewer.CanContentScroll="True">
+                <TextBlock x:Name="resultsTbx" DataContext="{Binding Source=splitter, Path=Results}"/>
+            </ScrollViewer>
+        </Border>
+        <StackPanel Grid.Column="1" Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center" Margin="75,0,181,0" Width="140" >
+            <Button Margin="10" Width="50" 
 					Name="splitBtn" IsEnabled="False" Click="splitBtn_Click">Split</Button>
-			<Button Margin="10" Width="50"
+            <Button Margin="10" Width="50"
 					Name="ExitBtn" Click="exitBtn_Click">Exit</Button>
-		</StackPanel>
-	</Grid>
+        </StackPanel>
+    </Grid>
 </Window>

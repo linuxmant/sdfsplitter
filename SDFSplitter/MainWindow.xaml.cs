@@ -1,30 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+
 
 namespace SDFSplitter {
-	/// <summary>
-	/// Interaction logic for MainWindow.xaml
-	/// </summary>
-	public partial class MainWindow :Window {
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
+    public partial class MainWindow : Window {
 
 		private Splitter splitter;
+        private bool hasSuffix = false;
+        private bool hasInput = false;
 
 		public MainWindow() {
 			InitializeComponent();
 			this.Loaded += new RoutedEventHandler(MainWindow_Loaded);
-
 			this.DataContext = splitter;
 		}
 
@@ -47,21 +40,23 @@ namespace SDFSplitter {
 
 			Nullable<bool> result = openDlg.ShowDialog();
 
-			if (result == true) {
-				TextBox path = (TextBox) (((FrameworkElement) sender).Parent as FrameworkElement).FindName("sdfFilePath");
-				path.Text = openDlg.FileName;
-				path.Foreground = Brushes.Black;
-				path.Focus();
+            if (result == true) {
+                TextBox path = (TextBox)(((FrameworkElement)sender).Parent as FrameworkElement).FindName("sdfFilePath");
+                path.Text = openDlg.FileName;
+                path.Foreground = Brushes.Black;
+                path.Focus();
 
-				molPath.Text = path.Text.Substring(0, path.Text.LastIndexOf("\\")) + "\\molFiles";
+                molPath.Text = path.Text.Substring(0, path.Text.LastIndexOf("\\")) + "\\molFiles";
+                hasInput = true;
+            } else {
+                hasInput = false;
+            }
 
-				splitBtn.IsEnabled = true;
-				splitBtn.Focus();
-			}
+            checkCanSplit();
 		}
 
 		private void splitBtn_Click(object sender, RoutedEventArgs e) {
-			splitter = new Splitter(sdfFilePath.Text, molPath.Text, resultsTbx);
+			splitter = new Splitter(sdfFilePath.Text, molPath.Text, int.Parse(suffix.Text), resultsTbx);
 			resultsTbx.Text = "Processing...";
 			resultsTbx.BringIntoView();
 			splitter.process();
@@ -81,5 +76,17 @@ namespace SDFSplitter {
 				sdfFilePath.Foreground = Brushes.Black;
 			}
 		}
-	}
+
+        private void suffix_PreviewKeyUp(object sender, KeyEventArgs e) {
+            var box = (TextBox)sender;
+            int val;
+
+            hasSuffix = int.TryParse(box.Text, out val);
+            checkCanSplit();
+        }
+
+        private void checkCanSplit() {
+            splitBtn.IsEnabled = hasSuffix && hasInput;
+        }
+    }
 }
