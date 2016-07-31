@@ -6,6 +6,11 @@
 *.user
 *.sln.docstates
 
+# Special resource folders
+*/Resources/complete
+*/Resources/missing
+*/Resources/suffix
+
 # Build results
 
 [Dd]ebug/

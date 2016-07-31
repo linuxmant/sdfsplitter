@@ -1,95 +1,103 @@
-﻿using System;
+﻿using GalaSoft.MvvmLight;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Windows.Controls;
 
 namespace SDFSplitter {
-    class Splitter : INotifyPropertyChanged {
-		private string sdfFilePath;
-		private string molPath;
-		private TextBlock results;
-        private int suffix;
-        
-        public int Suffix { get { return suffix; }
-            set { suffix = value; }
+    public class Splitter : ViewModelBase {
+        private BackgroundWorker bgWorker;
+
+        public Splitter(BackgroundWorker bgWorker) {
+            this.bgWorker = bgWorker;
         }
 
-		public event PropertyChangedEventHandler PropertyChanged;
+        public Splitter() { }
 
-		public TextBlock Results {
-			get { return results; }
-			set {
-				results = value;
+        public string process(string sdfFilePath, string molPath, int suffix) {
+            var result = "";
 
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("results"));
+            if (!Directory.Exists(molPath)) {
+                Directory.CreateDirectory(molPath);
+                Debug.WriteLine("Created directory " + molPath);
+            } else {
+                Directory.Delete(molPath, true);
+                Directory.CreateDirectory(molPath);
             }
-		}
 
-		public Splitter(string inFile, string outPath, int suffix, TextBlock monitor) {
-			this.sdfFilePath = inFile;
-			this.molPath = outPath;
-			this.Results = monitor;
-            Suffix = suffix;
-		}
+            StringBuilder strBuild = new StringBuilder();
 
-		public bool process() {
-			bool res = false;
-			Debug.WriteLine(" ...file " + sdfFilePath);
-			Results.Text += "\n ...file " + sdfFilePath;
-			try {
-				if (!Directory.Exists(molPath)) {
-					Directory.CreateDirectory(molPath);
-					Debug.WriteLine("Created directory " + molPath);
-				}
+            var data = File.ReadAllLines(sdfFilePath);
+            var mols = new List<string>();
 
-				StringBuilder strBuild = new StringBuilder();
-
-                var lineNo = 1;
-				foreach (string line in File.ReadAllLines(sdfFilePath)) {
+            try {
+                foreach (string line in data) {
                     if (!line.Equals("$$$$")) {
-						strBuild.AppendLine(line);
-                        if (strBuild.ToString().Contains("  0  0  0  0  0  0  0  0  0  0  1 V2000\r\nM  END")) {
-                            Results.Text += "\nInvalid molecule [Block #" + Suffix++ + " -- Line #" + lineNo + "]";
-                            strBuild.Clear();
-                            lineNo++;
-                            continue;
-                        }
-
+                        strBuild.AppendLine(line);
                     } else {
                         strBuild.AppendLine(line);
+                        mols.Add(strBuild.ToString());
+                        strBuild.Clear();
+                    }
+                }
 
-                        this.saveMol(("file_" + string.Format("{0:d7}", Suffix++)), strBuild.ToString());
-						strBuild.Clear();
-					}
-                    lineNo++;
-				}
-			} catch (Exception e) {
-				Debug.WriteLine("The file could not be read:");
-                Debug.WriteLine(e.Message);
-				Results.Text = "The file could not be read:\n";
-				Results.Text += e.Message;
-			}
+                int idx = 0;
+                mols.ForEach(mol => {
+                    if (mol.Contains("  0  0  0  0  0  0  0  0  0  0  1 V2000\r\nM  END")) {
+                        OnInvalidMolecule("\nInvalid molecule [Block #" + idx + "]");
+                    } else {
+                        saveMol(("file_" + string.Format("{0:d7}", suffix++)), mol, molPath);
+                    }
+                    idx++;
+                });
+            } catch (Exception ex) {
+                Debug.WriteLine(ex.Message);
+                result += ex.Message;
+            }
 
-			return res;
-		}
+            return result;
+        }
 
-		private void saveMol(string name, string data) {
-			name += ".mol";
-			try {
-				using(StreamWriter sw = new StreamWriter(molPath + "\\" + name)) {
-					sw.Write(data);
-					sw.Flush();
-					Results.Text += "\nSaved file " + name;
-				}
-			} catch (Exception e) {
+        private void saveMol(string name, string data, string molPath) {
+            name += ".mol";
+
+            var fileProcessArgs = new FileProcessingEventArgs();
+
+            try {
+                using (StreamWriter sw = new StreamWriter(molPath + "\\" + name)) {
+                    sw.Write(data);
+                    sw.Flush();
+                    fileProcessArgs.Status = FileSaveStatus.Success;
+                    fileProcessArgs.Message = "\nSaved file " + name;
+                    //OnFileSaved(fileProcessArgs);
+                }
+            } catch (Exception e) {
                 Debug.WriteLine("The file " + name + " could not be saved:");
                 Debug.WriteLine(e.Message);
-				Results.Text = "The file " + name + " could not be saved:\n";
-				Results.Text += e.Message;
-			}
-		}
-	}
+                fileProcessArgs.Status = FileSaveStatus.Failure;
+                fileProcessArgs.Message = "The file " + name + " could not be saved:\n" + e.Message;
+                //OnFileSaved(fileProcessArgs);
+            }
+
+            OnFileSaved(fileProcessArgs);
+        }
+
+        public EventHandler<FileProcessingEventArgs> FileSaved;
+        public EventHandler<string> InvalidMolecule;
+        protected virtual void OnFileSaved(FileProcessingEventArgs e) {
+            FileSaved?.Invoke(this, e);
+        }
+        protected virtual void OnInvalidMolecule(string e) {
+            InvalidMolecule?.Invoke(this, e);
+        }
+    }
+
+    public enum FileSaveStatus : byte { Failure, Success }
+
+    public class FileProcessingEventArgs {
+        public FileSaveStatus Status { get; set; }
+        public string Message { get; set; }
+    }
 }

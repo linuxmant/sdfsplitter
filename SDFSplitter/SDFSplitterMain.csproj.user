@@ -19,5 +19,6 @@
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
     <EnableSQLServerDebugging>false</EnableSQLServerDebugging>
+    <StartWorkingDirectory>G:\vs_projects\SDFSplitter\SDFSplitter\</StartWorkingDirectory>
   </PropertyGroup>
 </Project>

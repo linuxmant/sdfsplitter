@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2013 for Windows Desktop
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDFSplitterMain", "SDFSplitter\SDFSplitterMain.csproj", "{81068067-31E3-459E-A858-DD0B8641E55E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SplitterTests", "SplitterTests\SplitterTests.csproj", "{D6EFA6ED-EF5E-47CD-9FDA-1232B79B2789}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,18 @@ Global
 		{81068067-31E3-459E-A858-DD0B8641E55E}.Release|x64.Build.0 = Release|x64
 		{81068067-31E3-459E-A858-DD0B8641E55E}.Release|x86.ActiveCfg = Release|x86
 		{81068067-31E3-459E-A858-DD0B8641E55E}.Release|x86.Build.0 = Release|x86
+		{D6EFA6ED-EF5E-47CD-9FDA-1232B79B2789}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6EFA6ED-EF5E-47CD-9FDA-1232B79B2789}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6EFA6ED-EF5E-47CD-9FDA-1232B79B2789}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D6EFA6ED-EF5E-47CD-9FDA-1232B79B2789}.Debug|x64.Build.0 = Debug|Any CPU
+		{D6EFA6ED-EF5E-47CD-9FDA-1232B79B2789}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D6EFA6ED-EF5E-47CD-9FDA-1232B79B2789}.Debug|x86.Build.0 = Debug|Any CPU
+		{D6EFA6ED-EF5E-47CD-9FDA-1232B79B2789}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6EFA6ED-EF5E-47CD-9FDA-1232B79B2789}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6EFA6ED-EF5E-47CD-9FDA-1232B79B2789}.Release|x64.ActiveCfg = Release|Any CPU
+		{D6EFA6ED-EF5E-47CD-9FDA-1232B79B2789}.Release|x64.Build.0 = Release|Any CPU
+		{D6EFA6ED-EF5E-47CD-9FDA-1232B79B2789}.Release|x86.ActiveCfg = Release|Any CPU
+		{D6EFA6ED-EF5E-47CD-9FDA-1232B79B2789}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

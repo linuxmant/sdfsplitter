@@ -1,8 +1,57 @@
-﻿<Window x:Class="SDFSplitter.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="SDF Splitter" Loaded="MainWindow_Loaded"
-		Height="350" Width="525">
+        xmlns:local="clr-namespace:SDFSplitter.ViewModel"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:Custom="http://www.galasoft.ch/mvvmlight" x:Class="SDFSplitter.MainWindow"
+        Title="SDF Splitter"
+        WindowStartupLocation="CenterScreen" ResizeMode="NoResize" SizeToContent="WidthAndHeight">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding WindowLoaded}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Window.DataContext>
+        <local:MainViewModel/>
+    </Window.DataContext>
+    <StackPanel Margin="10" Orientation="Vertical" MaxWidth="500">
+        <StackPanel Orientation="Horizontal">
+            <StackPanel Orientation="Vertical">
+                <Label Grid.Column="0" Grid.Row="0" Content="Input File"/>
+                <Label Grid.Column="0" Grid.Row="1" Content="Output Directory"/>
+                <Label Content="Suffix"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch">
+                <TextBox Text="{Binding InFile, ValidatesOnDataErrors=True}"
+			             ToolTip="Select an SDF File" MaxLength="1024"
+			             Margin="2" MaxLines="1" MinWidth="300">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="PreviewMouseUp">
+                            <i:InvokeCommandAction Command="{Binding SelectInFile}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </TextBox>
+
+                <TextBox Text="{Binding OutDir, ValidatesOnDataErrors=True}"
+                         ToolTip="Select an output directory" MaxLength="1024"
+			             Margin="2" MaxLines="1" MinWidth="300"/>
+                <TextBox Text="{Binding Suffix, FallbackValue=0, ValidatesOnDataErrors=True}"
+                         ToolTip="Select a suffix" MaxLength="10" HorizontalAlignment="Stretch"
+			             Margin="2" MaxLines="1"  MinWidth="300"/>
+            </StackPanel>
+        </StackPanel>
+        <Border BorderBrush="Silver" BorderThickness="1" CornerRadius="2" Margin="2 5">
+            <ScrollViewer ScrollViewer.CanContentScroll="True">
+                <TextBlock x:Name="resultsTbx" Text="{Binding Results}" MinHeight="200"/>
+            </ScrollViewer>
+        </Border>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Margin="10" Width="50" Command="{Binding SplitCommand}" Content="Split"/>
+            <Button Margin="10" Width="50" Command="{Binding ExitCommand}" Content="Exit"/>
+        </StackPanel>
+    </StackPanel>
+</Window>
+<!-- 
     <Grid Margin="10" MaxWidth="640" MaxHeight="480" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="105"/>
@@ -31,9 +80,9 @@
         <Label Grid.Column="0" Grid.Row="2">Suffix</Label>
         <TextBox Grid.Column="1" Grid.Row="2" x:Name="suffix"
 				 ToolTip="Select a suffix" MaxLength="10"
-                 Text="{Binding Source=splitter, Path=Suffix}"
+                 Text="{Binding Suffix, FallbackValue=0, Mode=TwoWay, StringFormat=\{0:D\}, TargetNullValue=0, ValidatesOnDataErrors=True}"
                  PreviewKeyUp="suffix_PreviewKeyUp"
-                 Margin="2"/>
+                 Margin="2" MaxLines="1"/>
 
         <Border Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2"
 				BorderBrush="Silver" BorderThickness="1" CornerRadius="2"
@@ -50,4 +99,4 @@
 					Name="ExitBtn" Click="exitBtn_Click">Exit</Button>
         </StackPanel>
     </Grid>
-</Window>
+-->
