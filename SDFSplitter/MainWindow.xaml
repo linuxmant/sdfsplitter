@@ -41,8 +41,9 @@
             </StackPanel>
         </StackPanel>
         <Border BorderBrush="Silver" BorderThickness="1" CornerRadius="2" Margin="2 5">
-            <ScrollViewer>
-                <TextBox x:Name="resultsTbx" Text="{Binding Results}" Height="200" MaxHeight="200"/>
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <TextBox x:Name="resultsTbx" Text="{Binding Results}" Height="200" MaxHeight="200" 
+                         VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"/>
             </ScrollViewer>
         </Border>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">

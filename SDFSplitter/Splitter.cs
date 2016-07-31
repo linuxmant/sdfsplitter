@@ -32,7 +32,6 @@ namespace SDFSplitter {
             var data = File.ReadAllLines(sdfFilePath);
             var mols = new List<string>();
 
-            try {
                 foreach (string line in data) {
                     if (!line.Equals("$$$$")) {
                         strBuild.AppendLine(line);
@@ -43,10 +42,11 @@ namespace SDFSplitter {
                     }
                 }
 
+            try {
                 int idx = 0;
                 mols.ForEach(mol => {
                     if (mol.Contains("  0  0  0  0  0  0  0  0  0  0  1 V2000\r\nM  END")) {
-                        OnInvalidMolecule("\nInvalid molecule [Block #" + idx + "]");
+                        OnInvalidMolecule("Invalid molecule [Block #" + idx + "]");
                     } else {
                         saveMol(("file_" + string.Format("{0:d7}", suffix++)), mol, molPath);
                     }
@@ -54,7 +54,9 @@ namespace SDFSplitter {
                 });
             } catch (Exception ex) {
                 Debug.WriteLine(ex.Message);
-                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                //MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                OnFileSaved(new FileProcessingEventArgs {Message="Error processing file:\n" + ex.Message, Status=FileSaveStatus.Failure });
+                bgWorker.CancelAsync();
             }
         }
 
@@ -68,13 +70,13 @@ namespace SDFSplitter {
                     sw.Write(data);
                     sw.Flush();
                     fileProcessArgs.Status = FileSaveStatus.Success;
-                    fileProcessArgs.Message = "\nSaved file " + name;
+                    fileProcessArgs.Message = "Saved file " + name;
                 }
             } catch (Exception e) {
                 Debug.WriteLine("The file " + name + " could not be saved:");
                 Debug.WriteLine(e.Message);
                 fileProcessArgs.Status = FileSaveStatus.Failure;
-                fileProcessArgs.Message = "The file " + name + " could not be saved:\n" + e.Message;
+                fileProcessArgs.Message = "The file " + name + " could not be saved: " + e.Message;
             }
 
             OnFileSaved(fileProcessArgs);

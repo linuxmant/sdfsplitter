@@ -20,6 +20,7 @@ namespace SDFSplitter.ViewModel {
     /// </summary>
     public class MainViewModel : ViewModelBase {
         private Splitter splitter;
+        private bool isSplitting = false;
 
         private string inFile = "";
         private string outDir = "";
@@ -66,6 +67,14 @@ namespace SDFSplitter.ViewModel {
                 RaisePropertyChanged();
             }
         }
+        private bool IsSplitting {
+            get { return isSplitting; }
+            set { if (value == isSplitting) return;
+                isSplitting = value;
+                ExitCommand.RaiseCanExecuteChanged();
+                SplitCommand.RaiseCanExecuteChanged();
+            }
+        }
 
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
@@ -77,16 +86,16 @@ namespace SDFSplitter.ViewModel {
         }
 
         private void showProgress(object sender, FileProcessingEventArgs e) {
-            Results += e.Message;
+            Results += e.Message + "\n";
         }
         private void showError(object sender, string e) {
-            Results += e;
+            Results += e + "\n";
         }
 
         private RelayCommand exitCommand;
         public RelayCommand ExitCommand
         {
-            get { return exitCommand ?? (exitCommand = new RelayCommand(() => App.Current.Shutdown(), () => true)); }
+            get { return exitCommand ?? (exitCommand = new RelayCommand(() => App.Current.Shutdown(), () => !this.isSplitting)); }
         }
 
         private RelayCommand<object> splitCommand;
@@ -97,9 +106,15 @@ namespace SDFSplitter.ViewModel {
         private void Split(object obj) {
             BackgroundWorker bg = new BackgroundWorker();
             bg.DoWork += splitter_DoWork;
+            bg.RunWorkerCompleted += splitter_Complete;
             splitter.bgWorker = bg;
 
+            IsSplitting = true;
             bg.RunWorkerAsync(new SplitterArgs() { infile = InFile, outdir = OutDir, suff = Suffix });
+        }
+
+        public void splitter_Complete(object sender, RunWorkerCompletedEventArgs e) {
+            IsSplitting = false;
         }
 
         private void splitter_DoWork(object sender, DoWorkEventArgs e) {
@@ -107,7 +122,10 @@ namespace SDFSplitter.ViewModel {
             splitter.process(args.infile, args.outdir, args.suff);
         }
         private bool CanSplit(object obj) {
-            return !string.IsNullOrWhiteSpace(InFile) && !string.IsNullOrWhiteSpace(outDir) && !string.IsNullOrWhiteSpace(suffix.ToString());
+            return !IsSplitting && 
+                !string.IsNullOrWhiteSpace(InFile) && 
+                !string.IsNullOrWhiteSpace(outDir) && 
+                !string.IsNullOrWhiteSpace(suffix.ToString());
         }
 
         private RelayCommand<Window> windowLoaded;
