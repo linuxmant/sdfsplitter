@@ -1,5 +1,7 @@
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
+using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
 
@@ -16,8 +18,7 @@ namespace SDFSplitter.ViewModel {
     /// See http://www.galasoft.ch/mvvm
     /// </para>
     /// </summary>
-    public class MainViewModel : ViewModelBase
-    {
+    public class MainViewModel : ViewModelBase {
         private Splitter splitter;
 
         private string inFile = "";
@@ -28,7 +29,9 @@ namespace SDFSplitter.ViewModel {
         public string InFile
         {
             get { return inFile; }
-            set { if (value == inFile) return;
+            set
+            {
+                if (value == inFile) return;
                 inFile = value;
                 RaisePropertyChanged();
             }
@@ -36,7 +39,9 @@ namespace SDFSplitter.ViewModel {
         public string OutDir
         {
             get { return outDir; }
-            set { if (value == outDir) return;
+            set
+            {
+                if (value == outDir) return;
                 outDir = value;
                 RaisePropertyChanged();
             }
@@ -44,7 +49,9 @@ namespace SDFSplitter.ViewModel {
         public int Suffix
         {
             get { return suffix; }
-            set { if (value == suffix) return;
+            set
+            {
+                if (value == suffix) return;
                 suffix = value;
                 RaisePropertyChanged();
             }
@@ -52,7 +59,9 @@ namespace SDFSplitter.ViewModel {
         public string Results
         {
             get { return results; }
-            set { if (value == results) return;
+            set
+            {
+                if (value == results) return;
                 results = value;
                 RaisePropertyChanged();
             }
@@ -86,9 +95,16 @@ namespace SDFSplitter.ViewModel {
             get { return splitCommand ?? (splitCommand = new RelayCommand<object>(Split, CanSplit)); }
         }
         private void Split(object obj) {
-            Debug.WriteLine(InFile + "\n" + OutDir + "\n" + Suffix);
+            BackgroundWorker bg = new BackgroundWorker();
+            bg.DoWork += splitter_DoWork;
+            splitter.bgWorker = bg;
 
-            splitter.process(InFile, OutDir, Suffix);
+            bg.RunWorkerAsync(new SplitterArgs() { infile = InFile, outdir = OutDir, suff = Suffix });
+        }
+
+        private void splitter_DoWork(object sender, DoWorkEventArgs e) {
+            var args = (SplitterArgs)e.Argument;
+            splitter.process(args.infile, args.outdir, args.suff);
         }
         private bool CanSplit(object obj) {
             return !string.IsNullOrWhiteSpace(InFile) && !string.IsNullOrWhiteSpace(outDir) && !string.IsNullOrWhiteSpace(suffix.ToString());
@@ -120,6 +136,12 @@ namespace SDFSplitter.ViewModel {
 
                 OutDir = InFile.Substring(0, InFile.LastIndexOf("\\")) + "\\molFiles";
             }
+        }
+
+        private class SplitterArgs {
+            public string infile { get; set; }
+            public string outdir { get; set; }
+            public int suff { get; set; }
         }
     }
 }

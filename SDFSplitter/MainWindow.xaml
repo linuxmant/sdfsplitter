@@ -16,15 +16,15 @@
     <StackPanel Margin="10" Orientation="Vertical" MaxWidth="500">
         <StackPanel Orientation="Horizontal">
             <StackPanel Orientation="Vertical">
-                <Label Grid.Column="0" Grid.Row="0" Content="Input File"/>
-                <Label Grid.Column="0" Grid.Row="1" Content="Output Directory"/>
-                <Label Content="Suffix"/>
+                <Label x:Name="label" Grid.Column="0" Grid.Row="0" Content="Input File"/>
+                <Label x:Name="label1" Grid.Column="0" Grid.Row="1" Content="Output Directory"/>
+                <Label x:Name="label2" Content="Suffix"/>
             </StackPanel>
 
-            <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch">
+            <StackPanel Orientation="Vertical">
                 <TextBox Text="{Binding InFile, ValidatesOnDataErrors=True}"
 			             ToolTip="Select an SDF File" MaxLength="1024"
-			             Margin="2" MaxLines="1" MinWidth="300">
+			             Margin="0 5" MaxLines="1" MinWidth="300" AutomationProperties.LabeledBy="{Binding ElementName=label, Mode=OneWay}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="PreviewMouseUp">
                             <i:InvokeCommandAction Command="{Binding SelectInFile}"/>
@@ -34,15 +34,15 @@
 
                 <TextBox Text="{Binding OutDir, ValidatesOnDataErrors=True}"
                          ToolTip="Select an output directory" MaxLength="1024"
-			             Margin="2" MaxLines="1" MinWidth="300"/>
+			             Margin="0 5" MaxLines="1" MinWidth="300" AutomationProperties.LabeledBy="{Binding ElementName=label1, Mode=OneWay}"/>
                 <TextBox Text="{Binding Suffix, FallbackValue=0, ValidatesOnDataErrors=True}"
                          ToolTip="Select a suffix" MaxLength="10" HorizontalAlignment="Stretch"
-			             Margin="2" MaxLines="1"  MinWidth="300"/>
+			             Margin="0 5" MaxLines="1"  MinWidth="300" AutomationProperties.LabeledBy="{Binding ElementName=label2, Mode=OneWay}"/>
             </StackPanel>
         </StackPanel>
         <Border BorderBrush="Silver" BorderThickness="1" CornerRadius="2" Margin="2 5">
-            <ScrollViewer ScrollViewer.CanContentScroll="True">
-                <TextBlock x:Name="resultsTbx" Text="{Binding Results}" MinHeight="200"/>
+            <ScrollViewer>
+                <TextBox x:Name="resultsTbx" Text="{Binding Results}" Height="200" MaxHeight="200"/>
             </ScrollViewer>
         </Border>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
@@ -51,52 +51,3 @@
         </StackPanel>
     </StackPanel>
 </Window>
-<!-- 
-    <Grid Margin="10" MaxWidth="640" MaxHeight="480" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" >
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="105"/>
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="25"/>
-            <RowDefinition Height="25"/>
-            <RowDefinition Height="25"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="50"/>
-        </Grid.RowDefinitions>
-        <Label Grid.Column="0" Grid.Row="0">Input File</Label>
-        <TextBox Grid.Column="1" Grid.Row="0" x:Name="sdfFilePath"
-				 Text="Click to select sdf file..."
-				 PreviewMouseUp="TextBox_MouseUp"
-				 MouseEnter="sdfFilePath_MouseEnter" 
-                 MouseLeave="sdfFilePath_MouseLeave"
-				 ToolTip="Select an SDF File" MaxLength="1024"
-                 Margin="2"/>
-        <Label Grid.Column="0" Grid.Row="1">Output Directory</Label>
-        <TextBox Grid.Column="1" Grid.Row="1" x:Name="molPath"
-				 ToolTip="Select an output directory" MaxLength="1024"
-                 Margin="2"/>
-
-        <Label Grid.Column="0" Grid.Row="2">Suffix</Label>
-        <TextBox Grid.Column="1" Grid.Row="2" x:Name="suffix"
-				 ToolTip="Select a suffix" MaxLength="10"
-                 Text="{Binding Suffix, FallbackValue=0, Mode=TwoWay, StringFormat=\{0:D\}, TargetNullValue=0, ValidatesOnDataErrors=True}"
-                 PreviewKeyUp="suffix_PreviewKeyUp"
-                 Margin="2" MaxLines="1"/>
-
-        <Border Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2"
-				BorderBrush="Silver" BorderThickness="1" CornerRadius="2"
-                 Margin="2 5">
-            <ScrollViewer Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2"
-					  ScrollViewer.CanContentScroll="True">
-                <TextBlock x:Name="resultsTbx" DataContext="{Binding Source=splitter, Path=Results}"/>
-            </ScrollViewer>
-        </Border>
-        <StackPanel Grid.Column="1" Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center" Margin="75,0,181,0" Width="140" >
-            <Button Margin="10" Width="50" 
-					Name="splitBtn" IsEnabled="False" Click="splitBtn_Click">Split</Button>
-            <Button Margin="10" Width="50"
-					Name="ExitBtn" Click="exitBtn_Click">Exit</Button>
-        </StackPanel>
-    </Grid>
--->

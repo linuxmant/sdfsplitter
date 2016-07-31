@@ -5,10 +5,11 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using System.Windows;
 
 namespace SDFSplitter {
     public class Splitter : ViewModelBase {
-        private BackgroundWorker bgWorker;
+        public BackgroundWorker bgWorker { get; set; }
 
         public Splitter(BackgroundWorker bgWorker) {
             this.bgWorker = bgWorker;
@@ -16,8 +17,7 @@ namespace SDFSplitter {
 
         public Splitter() { }
 
-        public string process(string sdfFilePath, string molPath, int suffix) {
-            var result = "";
+        public void process(string sdfFilePath, string molPath, int suffix) {
 
             if (!Directory.Exists(molPath)) {
                 Directory.CreateDirectory(molPath);
@@ -54,10 +54,8 @@ namespace SDFSplitter {
                 });
             } catch (Exception ex) {
                 Debug.WriteLine(ex.Message);
-                result += ex.Message;
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-
-            return result;
         }
 
         private void saveMol(string name, string data, string molPath) {
@@ -71,14 +69,12 @@ namespace SDFSplitter {
                     sw.Flush();
                     fileProcessArgs.Status = FileSaveStatus.Success;
                     fileProcessArgs.Message = "\nSaved file " + name;
-                    //OnFileSaved(fileProcessArgs);
                 }
             } catch (Exception e) {
                 Debug.WriteLine("The file " + name + " could not be saved:");
                 Debug.WriteLine(e.Message);
                 fileProcessArgs.Status = FileSaveStatus.Failure;
                 fileProcessArgs.Message = "The file " + name + " could not be saved:\n" + e.Message;
-                //OnFileSaved(fileProcessArgs);
             }
 
             OnFileSaved(fileProcessArgs);
